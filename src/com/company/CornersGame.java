@@ -11,31 +11,6 @@ public class CornersGame {
     private static int[][] path = new int[120][2];
     private static int length;
 
-    public static void main1(String[] args) {
-        char[][] board = new char[BOARD_SIZE][BOARD_SIZE];
-        initializeBoard(board);
-
-        System.out.println("\n================== Welcome to the Corners Game! =================\n");
-
-        System.out.println("Select the game mode\n\n");
-        System.out.println("1. Play with the AI\n2. Play with a Friend\n3. Exit the game\n");
-
-        Scanner scanner = new Scanner(System.in);
-        char choice = scanner.next().charAt(0);
-        clearScreen();
-        if (choice == '1') {
-            char player1 = 'W';
-            char player2 = 'B';
-            playerVsAI(board);
-        } else if (choice == '2') {
-            char player1 = 'W';
-            char player2 = 'B';
-            playerVsPlayer(board);
-        } else {
-            return;
-        }
-    }
-
     public static void initializeBoard(char[][] board) {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
@@ -163,17 +138,15 @@ public class CornersGame {
                 }
             } else {
                 System.out.println("Player Black turn: ");
-                int bestScore = maxEval;
+                int bestScore = Integer.MAX_VALUE;  // Установим начальное значение на максимально возможное
                 int bestMoveFromRow = 0, bestMoveFromCol = 0, bestMoveToRow = 0, bestMoveToCol = 0;
-                char[][] boardCopy = new char[8][8];
 
                 for (int i = 0; i < 8; i++) {
                     for (int j = 0; j < 8; j++) {
-                        if (board[i][j] == player) {
+                        if (board[i][j] == 'B') {
                             ArrayList<Pair<Integer, Integer>> moves = getPossibleMoves(board, i, j);
                             for (Pair<Integer, Integer> move : moves) {
-                                //boardCopy = deepCopy(board);
-                                System.arraycopy(board, 0, boardCopy, 0, board.length);
+                                char[][] boardCopy = deepCopy(board);
                                 movePiece(boardCopy, i, j, move.getFirst(), move.getSecond());
                                 int score = alphaBetaMinimax(boardCopy, depth - 1, alpha, beta, false, maxEval, player);
 
@@ -190,23 +163,21 @@ public class CornersGame {
                 }
 
                 movePiece(board, bestMoveFromRow, bestMoveFromCol, bestMoveToRow, bestMoveToCol);
-                System.out.println("Enter row and column of piece to move: " + bestMoveFromRow + " " + bestMoveFromCol);
-                System.out.println("Enter row and column of destination: " + bestMoveToRow + " " + bestMoveToCol);
-
-                if (isWinner(board, player)) {
-                    System.out.println("Белые выиграли!");
+                System.out.println("AI moves from: " + bestMoveFromRow + " " + bestMoveFromCol);
+                System.out.println("AI moves to: " + bestMoveToRow + " " + bestMoveToCol);
+                if (isWinner(board, 'B')) {  // Проверяем, не победил ли ИИ
+                    System.out.println("Черные выиграли!");
                     gameOver = true;
                 }
 
                 player = 'W';
+
             }
             clearScreen();
         }
 
         scanner.close();
     }
-
-    // ... Other methods ...
 
     private static void clearScreen() {
         System.out.print("\033[H\033[2J");
