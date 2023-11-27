@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 import static com.company.Colors.*;
+import static com.company.Main.inputIntWithValidation;
 
 public class CornersGame {
     private static final int BOARD_SIZE = 8;
@@ -77,11 +78,11 @@ public class CornersGame {
             System.out.println("Player " + player + " turn: ");
             System.out.print("Enter row and column of piece to move: ");
             Scanner scanner = new Scanner(System.in);
-            fromRow = scanner.nextInt();
-            fromCol = scanner.nextInt();
+            fromRow = inputIntWithValidation();
+            fromCol = inputIntWithValidation();
             System.out.print("Enter row and column of destination: ");
-            toRow = scanner.nextInt();
-            toCol = scanner.nextInt();
+            toRow = inputIntWithValidation();
+            toCol = inputIntWithValidation();
 
             // Проверяем, возможен ли такой ход
             if (isValidMove(board, fromRow, fromCol, toRow, toCol, player)) {
@@ -137,11 +138,11 @@ public class CornersGame {
             if (player == 'W') {
                 System.out.println("Player " + player + " turn: ");
                 System.out.print("Enter row and column of piece to move: ");
-                int fromRow = scanner.nextInt();
-                int fromCol = scanner.nextInt();
+                int fromRow = inputIntWithValidation();
+                int fromCol = inputIntWithValidation();
                 System.out.print("Enter row and column of destination: ");
-                int toRow = scanner.nextInt();
-                int toCol = scanner.nextInt();
+                int toRow = inputIntWithValidation();
+                int toCol = inputIntWithValidation();
 
                 if (isValidMove(board, fromRow, fromCol, toRow, toCol, player)) {
                     movePiece(board, fromRow, fromCol, toRow, toCol);

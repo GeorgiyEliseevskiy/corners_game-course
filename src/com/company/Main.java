@@ -17,8 +17,7 @@ public class Main {
         System.out.println("Select the game mode\n\n");
         System.out.println("1. Play with the AI\n2. Play with a Friend\n3. Exit the game\n");
 
-        Scanner scanner = new Scanner(System.in);
-        char choice = scanner.next().charAt(0);
+        char choice = inputIsCorrect();
 
         if (choice == '1') {
             char player1 = 'W';
@@ -31,5 +30,42 @@ public class Main {
         } else {
             return;
         }
+    }
+
+    public static char inputIsCorrect() {
+        Scanner scanner = new Scanner(System.in);
+        String answerForPanel = scanner.nextLine();
+        try {
+            if (Character.isDigit(answerForPanel.charAt(0))) {
+                return answerForPanel.charAt(0);
+            } else {
+                while (!Character.isDigit(answerForPanel.charAt(0))) {
+                    System.out.println("Please, input the digit");
+                    answerForPanel = scanner.nextLine();
+                }
+                return answerForPanel.charAt(0);
+            }
+        } catch (StringIndexOutOfBoundsException c) {
+            System.out.println("bad data");
+        }
+        return '9';
+    }
+
+    public static int inputIntWithValidation() {
+        Scanner scanner = new Scanner(System.in);
+        int value = 0;
+        boolean inputValid = false;
+
+        while (!inputValid) {
+            if (scanner.hasNextInt()) {
+                value = scanner.nextInt();
+                inputValid = true;
+            } else {
+                System.out.println("Please, input the digit:");
+                scanner.nextLine();
+            }
+        }
+
+        return value;
     }
 }
